@@ -7,4 +7,9 @@ headers = {
 
 response = requests.get(url, params=headers)
 
-print(response.status_code)
+status = response.status_code
+
+with open('ответ сервера.txt', 'w', encoding='UTF-8') as f:
+    f.write(f'страница nasa.gov, ответ сервера:\n {status}')
+
+
