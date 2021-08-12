@@ -17,5 +17,9 @@ responce_group = requests.get(url_group, headers=headers, params=params)
 
 resp_name = responce_name.json()
 resp_group = responce_group.json()
-print(f'имя - {resp_name["response"][0]["first_name"]}\nid сообществ - {[i for i in resp_group["response"]["items"]]}\nобщее кол-во - {resp_group["response"]["count"]}')
+# print(f'имя - {resp_name["response"][0]["first_name"]}\nid сообществ - {[i for i in resp_group["response"]["items"]]}\nобщее кол-во - {resp_group["response"]["count"]}')
 
+group = [i for i in resp_group["response"]["items"]]
+
+with open('vk.name-groups.txt', 'w', encoding='UTF-8') as f:
+    f.write(f'имя - {resp_name["response"][0]["first_name"]}\nid сообществ - {group}\nобщее кол-во - {resp_group["response"]["count"]}')
