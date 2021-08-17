@@ -3,9 +3,11 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import pandas as pd
+import sys
 import numpy as np
-
-data = pd.DataFrame(columns=['Основная категория', 'Категория', 'Продукт', 'Общая оценка', 'Безопасность', 'Натуральность', 'Пищевая ценность', 'Качество', 'Ссылка'])
+data_category = 1     # сколько основных категорий просмотреть(молочные продукты, мсные продукты и т.д.)
+data = pd.DataFrame(columns=['Основная категория', 'Категория', 'Продукт', 'Общая оценка',
+                             'Безопасность', 'Натуральность', 'Пищевая ценность', 'Качество', 'Ссылка'])
 
 url = 'https://roscontrol.com/category/produkti'
 headers = {'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'}
@@ -18,15 +20,16 @@ name_category_1 = [i for i in name_category_soup]
 
 link_category_soup = soup.find_all('a', attrs='catalog__category-item util-hover-shadow')
 
+num = 0
 links = []
 for link in link_category_soup:
     url_1 = url + link['href']
     links.append(url_1)
 
-
+page_product = int(sys.argv[1]) + 1
 x = 0
 for i in links:
-    if x > 1:
+    if x > data_category:
         break
     name_category_1_data = name_category_1[x].text
     responce = requests.get(i, headers=headers)
@@ -38,18 +41,26 @@ for i in links:
     y = 0
     url_1 = 'https://roscontrol.com'
     for w in link:
-        responce_1 = requests.get(w, headers=headers)
-        soup_1 = bs(responce_1.text, 'html.parser')
+        link_product_1 = []
+        if page_product < 1000:
+            page_product = 2
+        for i in range(1, page_product):
+            params = {'page': i}
+            responce_1 = requests.get(f'{w}?page={i}', headers=headers)
+            soup_1 = bs(responce_1.text, 'html.parser')
 
-        link_product = [url_1+e['href'] for e in soup_1.find_all('a', attrs='block-product-catalog__item js-activate-rate util-hover-shadow clear')]
-
-        for t in link_product:
+            link_product = [url_1+e['href'] for e in soup_1.find_all('a', attrs='block-product-catalog__item js-activate-rate util-hover-shadow clear')]
+            for h in link_product:
+                link_product_1.append(h)
+        for t in link_product_1:
             responce_2 = requests.get(t, headers=headers)
             soup_2 = bs(responce_2.text, 'html.parser')
             name_product = soup_2.find('h1', attrs='main-title testlab-caption-products util-inline-block')
             total = soup_2.find('div', attrs='total green')
             safety = soup_2.find_all('div', attrs='rate-item__value')
             reit = [i.text.replace('\n', '') for i in safety]
+            num += 1
+            print(num, name_product.text)
 
             try:
                 data.loc[len(data['Категория'])] = (name_category_1_data, name_category[y],
@@ -57,6 +68,7 @@ for i in links:
                                                     total.text, reit[0], reit[1], reit[2], reit[3], t)
             except AttributeError:
                 continue
+
 
         y += 1
     x += 1
