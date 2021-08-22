@@ -111,9 +111,11 @@ for i in category_1:
 
 data_end.to_csv('data_end.csv', index=False)
 
-# a = collections.find({'Общая оценка': {'$gt': 80}})
-# for i in a:
-#     print(i)
+
+
+a = 80
+pprint([(i, j) for i, j in enumerate(data.collections.find({'Общая оценка': {'$gt': a}, 'Качество': {'$gt': a}}))])
+
 
 
 print('The end')
