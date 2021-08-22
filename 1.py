@@ -32,7 +32,7 @@ print(data)
 
 bd = MongoClient('localhost', 27017)
 data_b = bd.lesson_4
-lesson = data_b.lesson_4_collection
+lesson = data_b.lesson_4_mail_news
 
 lesson.delete_many({})
 lesson.insert_many(data.to_dict('records'))
