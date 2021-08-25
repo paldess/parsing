@@ -10,7 +10,7 @@ pd.set_option('display.max_rows', None)
 client = MongoClient('localhost', 27017)
 data = client.products
 collections = data.collections
-data.collections.delete_many({})
+# data.collections.delete_many({})
 
 
 
@@ -69,7 +69,7 @@ def catalog_products(url_2, cat_1, cat_2):
                 lim = i
         except ValueError:
             break
-    for q in range(lim):
+    for q in range(1, lim):
         pages = {'page': q}
         responce = requests.get(url + url_2, headers=params, params=pages)
         soup = BeautifulSoup(responce.text, 'html.parser')
@@ -93,13 +93,22 @@ def catalog_products(url_2, cat_1, cat_2):
                 parameters['Категория'] = name[1]
                 parameters['Продукт'] = name[2]
                 parameters['Ссылка'] = link
-                data_end.loc[len(data_end['Категория'])] = parameters
-                collections.insert_one(parameters)
+                if len([i for i in collections.find(parameters)])== 0:
+                    collections.insert_one(parameters)
+                    data_end.loc[len(data_end['Категория'])] = parameters
+                    print(f"*** Продукт {parameters['Продукт']} *** добавлен")
+                else:
+                    print('данная запись существует. пропускаем')
+                    # print(parameters['Ссылка'])
             except AttributeError:
                 prod = {'Основная категория': name[0], 'Категория': name[1], 'Продукт': name[2], 'Ссылка': link}
-                data_end.loc[len(data_end['Категория'])] = prod
-                collections.insert_one(prod)
-            print(f"Parsing {len(data_end['Категория'])} элемента")
+                if len([i for i in collections.find(prod)])== 0:
+                    collections.insert_one(prod)
+                    data_end.loc[len(data_end['Категория'])] = prod
+                    print(f"*** Продукт {prod['Продукт']} *** добавлен")
+                else:
+                    print('данная запись существует. пропускаем')
+                    # print(prod['Ссылка'])
     return data_end
 
 category_1 = catalogs(url+'/category/produkti/', 'Продукты')
@@ -118,4 +127,4 @@ pprint([(i, j) for i, j in enumerate(data.collections.find({'Общая оцен
 
 
 
-print('The end')
+print(f"{len(data_end['Категория'])} продуктов добавлено")

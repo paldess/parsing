@@ -8,11 +8,11 @@ data = db.products
 # pprint([(i, j) for i, j in enumerate(x)])
 
 
-a = 80
-pprint([(i, j) for i, j in enumerate(data.collections.find({'Общая оценка': {'$gt': a}, 'Качество': {'$gt': a}}))])
+# a = 80
+# pprint([(i, j) for i, j in enumerate(data.collections.find({'Общая оценка': {'$gt': a}, 'Качество': {'$gt': a}}))])
 
 
 
-# a = collections.find({'Общая оценка': {'$gt': 80}})
-# for i in a:
-#     print(i)
+a = data.collections.find({})
+for i in a:
+    print(i)
