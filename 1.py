@@ -52,5 +52,4 @@ while True:
         time.sleep(0.8)
     except NoSuchElementException:
         break
-    mail.commit()
 print(f'Добавлено {number} сообщ. Всего в базе данных {len([i for i in mail.find({})])}')
