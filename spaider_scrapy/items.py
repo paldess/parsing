@@ -13,5 +13,6 @@ class SpaiderScrapyItem(scrapy.Item):
     sale_price = scrapy.Field()
     author = scrapy.Field()
     url = scrapy.Field()
+    money = scrapy.Field()
 
     # print()
