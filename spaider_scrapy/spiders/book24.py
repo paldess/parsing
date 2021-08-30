@@ -9,7 +9,7 @@ class Book24Spider(scrapy.Spider):
     page = 0
     def parse(self, response: HtmlResponse):
         links = response.xpath("//div[@class='product-list catalog__product-list']//a[@class='product-card__name smartLink']/@href").getall()
-        if response.status == 200:
+        if response.status == 200 :                          # and self.page<10
             self.page += 1
             next = f'https://book24.ru/search/page-{self.page}/?q=%D0%BF%D1%81%D0%B8%D1%85%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F'
         else:
@@ -26,7 +26,7 @@ class Book24Spider(scrapy.Spider):
         book_url = response.url
         book_author = str(response.xpath("//div[@class='product-characteristic__item']//a[contains(@href, '/author/')]/text()").get()).replace('\n', '')
 
-        if response.xpath("//span[@class='app-price product-sidebar-price__price']/text()").get()[0] == None:
+        if len(response.xpath("//span[@class='app-price product-sidebar-price__price']")) == 0:
             money = '-'
             main_price = 'Нет в наличии'
             sale_price = '-'
