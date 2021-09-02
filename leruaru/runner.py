@@ -11,7 +11,7 @@ if __name__ == '__main__':
     crauler_settings.setmodule(settings)
 
     process = CrawlerProcess(crauler_settings)
-    process.crawl(LeruaSpider)
+    process.crawl(LeruaSpider, search='ламинат')
 
 
     process.start()
