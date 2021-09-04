@@ -11,7 +11,7 @@ class LeruaruItem(scrapy.Item):
     name = scrapy.Field()
     url = scrapy.Field()
     price = scrapy.Field()
-    metric_price_1 = scrapy.Field()
+    metric_price = scrapy.Field()
     metric_price_2 = scrapy.Field()
     pictures = scrapy.Field()
 

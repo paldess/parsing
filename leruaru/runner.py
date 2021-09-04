@@ -9,9 +9,9 @@ from leruaru.spiders.lerua import LeruaSpider
 if __name__ == '__main__':
     crauler_settings = Settings()
     crauler_settings.setmodule(settings)
-
+    search = 'ламинат'
     process = CrawlerProcess(crauler_settings)
-    process.crawl(LeruaSpider, search='ламинат')
+    process.crawl(LeruaSpider, search=search)
 
 
     process.start()

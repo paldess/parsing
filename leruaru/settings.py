@@ -13,7 +13,10 @@ SPIDER_MODULES = ['leruaru.spiders']
 NEWSPIDER_MODULE = 'leruaru.spiders'
 
 LOG_ENABLE = True
-LOG_LEVEL = 'DEBUG'
+LOG_LEVEL = 'ERROR'
+
+IMAGES_STORE = 'images'
+IMAGES_THUMBS ={'medium': (640, 320)}
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36'
@@ -66,6 +69,7 @@ COOKIES_ENABLED = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'leruaru.pipelines.LeruaruPipeline': 300,
+   'leruaru.pipelines.leruaphotospipline': 200,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
