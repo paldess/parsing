@@ -15,7 +15,7 @@ class LeruaruPipeline:
         bd = MongoClient('localhost', 27017)
         self.base = bd.leruamerlen
     def process_item(self, item, spider):
-        item['price'] = float(item['price'].replace(' ', ''))
+        # item['price'] = float(item['price'].replace(' ', ''))
         item['metric_price'] = item['metric_price'] + '/' + item['metric_price_2']
         item.pop('metric_price_2')
         col = self.base[spider.name]
