@@ -9,5 +9,9 @@ import scrapy
 
 class InstagrammItem(scrapy.Item):
     # define the fields for your item here like:
-    name = scrapy.Field()
-
+    status = scrapy.Field()
+    main_user = scrapy.Field()
+    main_id = scrapy.Field()
+    user_name = scrapy.Field()
+    id = scrapy.Field()
+    photo = scrapy.Field()
