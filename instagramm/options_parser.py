@@ -1,1 +1,1 @@
-user_find = ['marijmakova', 'olga780328', 'xelfic']
+user_find = ['xelfic'] #, 'olga780328', 'xelfic']
